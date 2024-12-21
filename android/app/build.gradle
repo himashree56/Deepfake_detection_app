@@ -1,0 +1,77 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'dev.flutter.flutter-gradle-plugin'
+    id 'com.google.gms.google-services'
+}
+
+android {
+    namespace "com.company.leo"
+    compileSdkVersion 35
+
+    defaultConfig {
+        applicationId "com.company.leo"
+        minSdkVersion 21
+        targetSdkVersion 35
+        versionCode 1 // Update this for each release build
+        versionName "1.0" // Update this for each release version
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    signingConfigs {
+        release {
+            keyAlias 'my-key-alias' // Replace with your keystore alias
+            keyPassword 'madhesh' // Replace with your keystore password
+            storeFile file('my-release-key.jks') // Provide the correct keystore path
+            storePassword 'madhesh' // Replace with your store password
+        }
+    }
+
+    buildTypes {
+        release {
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release // Use the release signing configuration
+        }
+    }
+
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.8.22"
+    implementation 'androidx.core:core-ktx:1.15.0'
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
+    implementation "org.tensorflow:tensorflow-lite:2.16.1"
+    implementation 'org.tensorflow:tensorflow-lite-select-tf-ops:2.16.1'  // Include this for extended ops
+
+    // Firebase dependencies
+    implementation platform('com.google.firebase:firebase-bom:32.7.2') // Firebase BoM to manage versions
+    implementation 'com.google.firebase:firebase-analytics:21.0.0'  // Firebase Analytics
+    implementation 'com.google.firebase:firebase-auth:21.0.1'  // Firebase Authentication
+    implementation 'com.google.firebase:firebase-firestore:24.6.0'  // Firebase Firestore
+    implementation 'com.google.firebase:firebase-storage:20.2.0'  // Firebase Storage
+}
+
+flutter {
+    source '../..'
+}
+
+// Apply Firebase plugin (this is required for Firebase integration)
+apply plugin: 'com.google.gms.google-services'
